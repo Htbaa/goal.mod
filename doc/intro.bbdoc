@@ -1,0 +1,11 @@
+<h1>Origin</h1>
+<p>BlitzMax translation of Mat Bucklands' C++ Goal based agents implementation described in the book <a href="http://www.ai-junkie.com/books/toc_pgaibe.html">Programming Game AI by Example</a>.</p>
+
+<h2>What use is it?</h2>
+<p>Much like a Finite State Machine you can create several states, or actions as you will. You can create tasklists with a hierarchy for your A.I. agents which in turns also empowers you to give them a memory. For example, a unit has been given some coordinates to move to. On his way he gets attacked. Instead of deleting its current task you just add a goal that handels an attack. If the unit survives he can just pick up where he left. Allowing you to make smarter A.I. agents with a sence of memory as well. Of course, it's up to you to handle recovery to a previous goal. If the unit has drifted too far apart from his planned route you need to replan a route. This system is flexible enough to make all that possible.</p>
+
+<h2>Examples</h2>
+<p>Please take a look at one of the examples below.</p>
+<ul>
+	<li><a href="../examples/example1.bmx">example1.bmx</a></li>
+</ul>

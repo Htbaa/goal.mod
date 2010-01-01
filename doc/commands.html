@@ -1,0 +1,261 @@
+<html><head><title>htbaapub.goal reference</title>
+<link rel=stylesheet Type=text/css href='../../../../doc/bmxstyle.css'>
+</head><body>
+<table width=100% cellspacing=0><tr align=center><td class=small>&nbsp;</td>
+<td class=small width=1%><b>htbaapub.goal:</b></td>
+<td class=small width=1%><a href=#types class=small>Types</a></td>
+<td class=small width=1%><a href=#modinfo class=small>Modinfo</a></td>
+<td class=small width=1%><a href='../../../../mod/htbaapub.mod/goal.mod/goal.bmx' class=small>Source</a></td>
+<td class=small>&nbsp;</td></tr></table>
+<h1>htbaapub.goal</h1>
+Goals with hierarchy support.
+<h1>Origin</h1>
+<p>BlitzMax translation of Mat Bucklands' C++ Goal based agents implementation described in the book <a href="http://www.ai-junkie.com/books/toc_pgaibe.html">Programming Game AI by Example</a>.</p>
+<p>
+<h2>What use is it?</h2>
+<p>Much like a Finite State Machine you can create several states, or actions as you will. You can create tasklists with a hierarchy for your A.I. agents which in turns also empowers you to give them a memory. For example, a unit has been given some coordinates to move to. On his way he gets attacked. Instead of deleting its current task you just add a goal that handels an attack. If the unit survives he can just pick up where he left. Allowing you to make smarter A.I. agents with a sence of memory as well. Of course, it's up to you to handle recovery to a previous goal. If the unit has drifted too far apart from his planned route you need to replan a route. This system is flexible enough to make all that possible.</p>
+<p>
+<h2>Examples</h2>
+<p>Please take a look at one of the examples below.</p>
+<ul>
+	<li><a href="../examples/example1.bmx">example1.bmx</a></li>
+</ul>
+<h2><a name=types></a>Types Summary</h2><table class=doc width=100%>
+<tr><td class=docleft width=1%><a href=#TGoal>TGoal</a></td><td class=docright>
+Atomic Goal type.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#TGoalComposite>TGoalComposite</a></td><td class=docright>
+Composite goal type.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#TGoalEvaluator>TGoalEvaluator</a></td><td class=docright>
+Base class to create a goal evaluator.
+</td></tr>
+</table>
+<h2
+ id=typesdet>Types
+</h2>
+<table class=doc width=100% cellspacing=3 id=TGoal>
+<tr><td class=doctop colspan=2>Type TGoal Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Atomic Goal type.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=TGoal_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Activate>Activate</a></td><td class=docright>
+logic to run when the goal is activated.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ActivateIfInactive>ActivateIfInactive</a></td><td class=docright>
+if m_iStatus = inactive this method sets it to active and calls Activate()
+</td></tr>
+<tr><td class=docleft width=1%><a href=#AddSubgoal>AddSubgoal</a></td><td class=docright>
+a Goal is atomic and cannot aggregate subgoals yet we must implement this method to provide the uniform interface required for the goal hierarchy.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+note how goals start off in the inactive state.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Destroy>Destroy</a></td><td class=docright>
+when this Object is destroyed make sure any subgoals are terminated and destroyed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#GetType>GetType</a></td><td class=docright>
+Returns m_iType:Int.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#HandleMessage>HandleMessage</a></td><td class=docright>
+goals can handle messages. Many don't though, so this defines a default behavior.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#HasFailed>HasFailed</a></td><td class=docright>
+Check if goal failed to perform its tasks.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsActive>IsActive</a></td><td class=docright>
+Check if goal is still active.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsComplete>IsComplete</a></td><td class=docright>
+Check if goal has been completed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#IsInactive>IsInactive</a></td><td class=docright>
+Check if goal is inactive.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Process>Process</a></td><td class=docright>
+logic to run each update-step.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ReactivateIfFailed>ReactivateIfFailed</a></td><td class=docright>
+If m_iStatus is failed this Method sets it To inactive so that the goal will be reactivated (And therefore re - planned) on the Next update - Step.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#RenderAtPos>RenderAtPos</a></td><td class=docright>
+Display information about goal. For debugging purposes.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Terminate>Terminate</a></td><td class=docright>
+logic to run when the goal is satisfied. (typically used to switch off, for example, any active steering behaviors)
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Activate>
+<tr><td class=doctop colspan=2>Method Activate() Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>logic to run when the goal is activated.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ActivateIfInactive>
+<tr><td class=doctop colspan=2>Method ActivateIfInactive()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>if m_iStatus = inactive this method sets it to active and calls Activate()</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=AddSubgoal>
+<tr><td class=doctop colspan=2>Method AddSubgoal(goal:TGoal)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>a Goal is atomic and cannot aggregate subgoals yet we must implement this method to provide the uniform interface required for the goal hierarchy.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:Object(pOwner:Object, iType:Int)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>note how goals start off in the inactive state.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Destroy>
+<tr><td class=doctop colspan=2>Method Destroy()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>when this Object is destroyed make sure any subgoals are terminated and destroyed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=GetType>
+<tr><td class=doctop colspan=2>Method GetType:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Returns m_iType:Int.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=HandleMessage>
+<tr><td class=doctop colspan=2>Method HandleMessage:Int(message:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>goals can handle messages. Many don't though, so this defines a default behavior.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=HasFailed>
+<tr><td class=doctop colspan=2>Method HasFailed:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Check if goal failed to perform its tasks.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsActive>
+<tr><td class=doctop colspan=2>Method IsActive:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Check if goal is still active.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsComplete>
+<tr><td class=doctop colspan=2>Method IsComplete:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Check if goal has been completed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=IsInactive>
+<tr><td class=doctop colspan=2>Method IsInactive:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Check if goal is inactive.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Process>
+<tr><td class=doctop colspan=2>Method Process:Int() Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>logic to run each update-step.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ReactivateIfFailed>
+<tr><td class=doctop colspan=2>Method ReactivateIfFailed()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>If m_iStatus is failed this Method sets it To inactive so that the goal will be reactivated (And therefore re - planned) on the Next update - Step.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=RenderAtPos>
+<tr><td class=doctop colspan=2>Method RenderAtPos(x:Double Var, y:Double Var)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Display information about goal. For debugging purposes.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Terminate>
+<tr><td class=doctop colspan=2>Method Terminate() Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>logic to run when the goal is satisfied. (typically used to switch off, for example, any active steering behaviors)</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=TGoalComposite>
+<tr><td class=doctop colspan=2>Type TGoalComposite Extends TGoal</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Composite goal type.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=TGoalComposite_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#Activate>Activate</a></td><td class=docright>
+logic to run when the goal is activated.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#AddSubgoal>AddSubgoal</a></td><td class=docright>
+adds a subgoal to the front of the subgoal list.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Destroy>Destroy</a></td><td class=docright>
+when this Object is destroyed make sure any subgoals are terminated and destroyed.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ForwardMessageToFrontMostSubgoal>ForwardMessageToFrontMostSubgoal</a></td><td class=docright>
+passes the message To the front - most subgoal.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#HandleMessage>HandleMessage</a></td><td class=docright>
+if a child class of TGoalComposite does not define a message handler the default behavior is to forward the message to the front-most goal.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Process>Process</a></td><td class=docright>
+logic to run each update-step.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#ProcessSubgoals>ProcessSubgoals</a></td><td class=docright>
+processes any subgoals that may be present this method first removes any completed goals from the front of the subgoal list. It then processes the next goal in the list (if there is one)
+</td></tr>
+<tr><td class=docleft width=1%><a href=#RemoveAllSubgoals>RemoveAllSubgoals</a></td><td class=docright>
+this method iterates through the subgoals and calls each one's Terminate method before deleting the subgoal and removing it from the subgoal list.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#RenderAtPos>RenderAtPos</a></td><td class=docright>
+Display information about goal. For debugging purposes.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Terminate>Terminate</a></td><td class=docright>
+logic to run when the goal is satisfied. (typically used to switch off, for example, any active steering behaviors)
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Activate>
+<tr><td class=doctop colspan=2>Method Activate() Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>logic to run when the goal is activated.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=AddSubgoal>
+<tr><td class=doctop colspan=2>Method AddSubgoal(goal:TGoal)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>adds a subgoal to the front of the subgoal list.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Destroy>
+<tr><td class=doctop colspan=2>Method Destroy()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>when this Object is destroyed make sure any subgoals are terminated and destroyed.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ForwardMessageToFrontMostSubgoal>
+<tr><td class=doctop colspan=2>Method ForwardMessageToFrontMostSubgoal:Int(Message:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>passes the message To the front - most subgoal.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=HandleMessage>
+<tr><td class=doctop colspan=2>Method HandleMessage:Int(message:Object)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>if a child class of TGoalComposite does not define a message handler the default behavior is to forward the message to the front-most goal.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Process>
+<tr><td class=doctop colspan=2>Method Process:Int() Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>logic to run each update-step.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=ProcessSubgoals>
+<tr><td class=doctop colspan=2>Method ProcessSubgoals:Int()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>processes any subgoals that may be present this method first removes any completed goals from the front of the subgoal list. It then processes the next goal in the list (if there is one)</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=RemoveAllSubgoals>
+<tr><td class=doctop colspan=2>Method RemoveAllSubgoals()</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>this method iterates through the subgoals and calls each one's Terminate method before deleting the subgoal and removing it from the subgoal list.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=RenderAtPos>
+<tr><td class=doctop colspan=2>Method RenderAtPos(x:Double Var, y:Double Var)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Display information about goal. For debugging purposes.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Terminate>
+<tr><td class=doctop colspan=2>Method Terminate() Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>logic to run when the goal is satisfied. (typically used to switch off, for example, any active steering behaviors)</td></tr>
+</table>
+<br>
+<table class=doc width=100% cellspacing=3 id=TGoalEvaluator>
+<tr><td class=doctop colspan=2>Type TGoalEvaluator Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Base class to create a goal evaluator.</td></tr>
+</table>
+<table class=doc width=90% align=center><tr ><th class=doctop colspan=2 align=left><a name=TGoalEvaluator_methods></a>Methods Summary</th></tr>
+<tr><td class=docleft width=1%><a href=#CalculateDesirability>CalculateDesirability</a></td><td class=docright>
+returns a score between 0 and 1 representing the desirability of the strategy the concrete subclass represents.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#Create>Create</a></td><td class=docright>
+Object creation.
+</td></tr>
+<tr><td class=docleft width=1%><a href=#SetGoal>SetGoal</a></td><td class=docright>
+adds the appropriate goal to the given bot's brain.
+</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=CalculateDesirability>
+<tr><td class=doctop colspan=2>Method CalculateDesirability:Double(Owner:Object) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>returns a score between 0 and 1 representing the desirability of the strategy the concrete subclass represents.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=Create>
+<tr><td class=doctop colspan=2>Method Create:Object(CharacterBias:Double)</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>Object creation.</td></tr>
+</table>
+<table class=doc width=100% cellspacing=3 id=SetGoal>
+<tr><td class=doctop colspan=2>Method SetGoal(Owner:Object) Abstract</td></tr>
+<tr><td class=docleft width=1%>Description</td><td class=docright>adds the appropriate goal to the given bot's brain.</td></tr>
+</table>
+<br>
+<h2 id=modinfo>Module Information</h2>
+<table width=100%>
+<tr><th width=1%>Name</th><td>htbaapub.goal</td></tr>
+<tr><th width=1%>Version</th><td>1.00</td></tr>
+<tr><th width=1%>Author</th><td>Christiaan Kras</td></tr>
+<tr><th width=1%>Author of C++ code</th><td>Mat Buckland <a href='http://www.ai-junkie.com'>http://www.ai-junkie.com</a></td></tr>
+<tr><th width=1%>Git repository</th><td><a href='http://github.com/Htbaa/goal.mod/'>http://github.com/Htbaa/goal.mod/</a></td></tr>
+</body></html>
